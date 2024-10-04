@@ -1,6 +1,8 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+from fontTools.misc.cython import returns
+
 
 class FrameGetter:
 	def __init__(self, path):
@@ -16,11 +18,12 @@ class FrameGetter:
 		self.cap.release()
 
 
-fg = FrameGetter('videos/video1.mp4')
+fg = FrameGetter('videos/cut_1_ortho.mp4')
 
 
 stitcher = cv2.Stitcher.create(cv2.Stitcher_SCANS)
-frames = [fg.get(num) for num in range(100,160,10)]
+frames = [fg.get(num) for num in range(40)]
+
 (_result, frame_result) = stitcher.stitch(frames)
 if frame_result is not None:
 	fig = plt.figure(figsize=(14, 9))
@@ -28,5 +31,6 @@ if frame_result is not None:
 	ax[0].imshow(frame_result)
 	plt.show()
 	cv2.imwrite("frame2.png",frame_result)
+
 
 cv2.destroyAllWindows()
