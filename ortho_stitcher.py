@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import os
+from .datasets import ImagesDataset
 
 class VideoFrameGetter:
 	def __init__(self, path):
@@ -97,3 +98,10 @@ class CV2VideoStitcher:
 	def stitch(self):
 		(_result, frame_result) = self.stitcher.stitch(self.frames)
 		return frame_result
+
+
+def stitch_dataset(dataset: ImagesDataset):
+	stitcher = cv2.Stitcher.create(cv2.Stitcher_PANORAMA)
+	frames = [dataset[i] for i in range(len(dataset))]
+	(result, frame_result) = stitcher.stitch(frames)
+	return frame_result
